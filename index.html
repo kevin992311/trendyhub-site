@@ -18,42 +18,92 @@
 
 <header class="site-header">
   <div class="wrap">
-    <div class="brand-row">
+    <a class="brand-row" href="#top" aria-label="Trendyhub home">
       <span class="mark">T</span>
-      <div class="brand"><h1>Trendyhub</h1></div>
-    </div>
-    <a class="header-cta" id="header-whatsapp" href="#" target="_blank" rel="noopener">Message on WhatsApp</a>
+      <span class="brand"><span class="brand-name">Trendyhub</span><span class="brand-sub">Stitched Collection</span></span>
+    </a>
+    <nav class="header-nav" aria-label="Primary">
+      <a class="nav-link" href="#collection">Collection</a>
+      <a class="nav-link" href="#about">Our story</a>
+      <a class="nav-link" href="#contact">Contact</a>
+      <a class="header-cta" id="header-whatsapp" href="#" target="_blank" rel="noopener">Order on WhatsApp</a>
+    </nav>
   </div>
 </header>
 
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <h2>Today's pieces, straight off the swatch table.</h2>
-      <p class="lede" id="tagline">Stitched suits in premium lawn. New pieces added most days — order the ones you like on WhatsApp before the size runs out.</p>
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-text">
+        <p class="eyebrow">New arrivals · Stitched to order</p>
+        <h2>Today's pieces, straight off the <em>swatch table</em>.</h2>
+        <p class="lede" id="tagline">Stitched suits in premium lawn. New pieces added most days — order the ones you like on WhatsApp before the size runs out.</p>
+        <div class="hero-actions">
+          <a class="cta-primary" href="#collection">Shop the collection</a>
+          <a class="cta-ghost" id="hero-whatsapp" href="#" target="_blank" rel="noopener">Message on WhatsApp</a>
+        </div>
+      </div>
+      <div class="hero-collage" id="hero-photos" aria-label="Selected pieces"></div>
     </div>
-    <div class="swatch-strip" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-  </div>
-</section>
+  </section>
 
-<main class="catalog">
-  <div class="wrap">
-    <div class="catalog-head">
-      <h3>The collection</h3>
-      <span class="catalog-count" id="catalog-count"></span>
+  <section class="catalog" id="collection">
+    <div class="wrap">
+      <div class="catalog-head">
+        <div>
+          <p class="eyebrow">The collection</p>
+          <h3>Fresh off the swatch table</h3>
+        </div>
+        <span class="catalog-count" id="catalog-count"></span>
+      </div>
+      <div class="grid" id="grid">
+        <div class="state-msg">Loading today's pieces…</div>
+      </div>
     </div>
-    <div class="grid" id="grid">
-      <div class="state-msg">Loading today's pieces…</div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <p class="eyebrow">Our story</p>
+      <h3>Hand-finished pieces, made to be worn and remembered.</h3>
+      <p>Every Trendyhub suit is cut from premium lawn and finished with care. A small, rotating collection keeps each drop special — new pieces appear most days, and once a size runs out it's gone for good. Message us on WhatsApp to reserve yours.</p>
     </div>
-  </div>
+  </section>
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer" id="contact">
   <div class="wrap">
-    <span>Trendyhub Stitched Collection</span>
-    <span id="footer-contact"></span>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand-row" href="#top">
+          <span class="mark">T</span>
+          <span class="brand"><span class="brand-name">Trendyhub</span><span class="brand-sub">Stitched Collection</span></span>
+        </a>
+        <p class="note">Stitched suits in premium lawn — new pieces drop most days. Order yours straight on WhatsApp before the size runs out.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#collection">Collection</a></li>
+          <li><a href="#about">Our story</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Order &amp; contact</h4>
+        <ul>
+          <li class="contact-line">WhatsApp: <span id="footer-contact"></span></li>
+          <li><a href="#collection">How to order</a></li>
+          <li><a id="footer-cta" href="#" target="_blank" rel="noopener">Chat on WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="wrap">
+        <span>© <span id="foot-year"></span> Trendyhub Stitched Collection</span>
+        <span>Stitched with care in premium lawn</span>
+      </div>
+    </div>
   </div>
 </footer>
 

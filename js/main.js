@@ -21,15 +21,20 @@ async function loadCatalog() {
   const waNumber = String(data.whatsapp_number || '').replace(/[^0-9]/g, '');
   const orderEnabled = waNumber.length >= 4;
 
-  // Header WhatsApp link — hide it gracefully if no number is configured.
-  const headerLink = document.getElementById('header-whatsapp');
-  if (headerLink) {
-    if (orderEnabled) headerLink.href = 'https://wa.me/' + waNumber;
-    else headerLink.style.display = 'none';
-  }
+  // CTA links — hide gracefully if no number is configured.
+  var ctaIds = ['header-whatsapp', 'hero-whatsapp', 'footer-cta'];
+  ctaIds.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (orderEnabled) el.href = 'https://wa.me/' + waNumber;
+    else el.style.display = 'none';
+  });
 
   const footerContact = document.getElementById('footer-contact');
   if (footerContact) footerContact.textContent = data.whatsapp_number ? 'WhatsApp: +' + waNumber : '';
+
+  const yearEl = document.getElementById('foot-year');
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
   const taglineEl = document.getElementById('tagline');
   if (taglineEl && data.tagline) taglineEl.textContent = data.tagline;
@@ -52,7 +57,9 @@ async function loadCatalog() {
   if (grid) {
     grid.innerHTML = products.map(p => renderPiece(p, orderEnabled ? waNumber : null)).join('');
     wireLightbox(grid);
+    initGalleries(grid);
   }
+  populateHero(products);
 }
 
 function renderPiece(p, waNumber) {
@@ -65,9 +72,11 @@ function renderPiece(p, waNumber) {
 
   let photoMarkup;
   if (images.length > 1) {
-    photoMarkup = '<div class="photo-scroll">' + images.map((src, i) =>
+    const slides = images.map((src, i) =>
       '<img src="' + escapeAttr(src) + '" alt="' + escapeAttr(p.name) + ' — photo ' + (i + 1) + '" ' + imgAttrs + (i === 0 ? ' fetchpriority="high"' : '') + '>'
-    ).join('') + '</div>';
+    ).join('');
+    const dots = images.map((_, i) => '<span class="' + (i === 0 ? 'on' : '') + '"></span>').join('');
+    photoMarkup = '<div class="photo-scroll">' + slides + '</div>' + '<div class="gallery-dots">' + dots + '</div>';
   } else if (images.length === 1) {
     photoMarkup = '<img src="' + escapeAttr(images[0]) + '" alt="' + escapeAttr(p.name) + '" ' + imgAttrs + ' fetchpriority="high">';
   } else {
@@ -125,6 +134,37 @@ function handleImgError(img) {
   note.textContent = 'Photo temporarily unavailable';
   photo.innerHTML = '';
   photo.appendChild(note);
+}
+
+/* ---- Gallery dots + swipe indicators ---- */
+function initGalleries(grid) {
+  const scrolls = Array.prototype.filter.call(grid.querySelectorAll('.photo-scroll'), sc => sc.nextElementSibling && sc.nextElementSibling.classList.contains('gallery-dots'));
+  scrolls.forEach(sc => {
+    const dots = sc.nextElementSibling;
+    const update = () => {
+      const imgs = Array.prototype.filter.call(sc.children, c => c.tagName === 'IMG');
+      if (imgs.length === 0) return;
+      const idx = Math.min(imgs.length - 1, Math.max(0, Math.round(sc.scrollLeft / sc.clientWidth)));
+      Array.prototype.forEach.call(dots.children, (s, i) => s.classList.toggle('on', i === idx));
+    };
+    sc.addEventListener('scroll', update, { passive: true });
+    dots.addEventListener('click', e => {
+      const i = Array.prototype.indexOf.call(dots.children, e.target);
+      if (i >= 0) sc.scrollTo({ left: i * sc.clientWidth, behavior: 'smooth' });
+    });
+  });
+}
+
+/* ---- Hero photo collage (populated from the newest pieces) ---- */
+function populateHero(products) {
+  const el = document.getElementById('hero-photos');
+  if (!el) return;
+  const shots = [];
+  products.slice(0, 4).forEach(p => (p.images || []).forEach(s => shots.push(s)));
+  if (shots.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = shots.slice(0, 3).map(s =>
+    '<figure class="hero-shot"><img src="' + escapeAttr(s) + '" alt="Trendyhub stitched suit" loading="lazy" decoding="async" onerror="this.style.display=\'none\'"></figure>'
+  ).join('');
 }
 
 /* ---- Lightbox: view any photo full size ---- */
