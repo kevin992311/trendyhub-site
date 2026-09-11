@@ -1,0 +1,22 @@
+{
+  "whatsapp_number": "923406600054",
+  "shop_name": "Trendyhub",
+  "tagline": "Stitched suits, straight from the swatch table.",
+  "products": [
+    {
+      "id": "zeb-e-noor-plazo",
+      "name": "Zeb-e-Noor — 3pc (Plazo)",
+      "price": 4950,
+      "fabric": "Premium lawn",
+      "description": "3-piece embroidered lawn suit with plazo. Soft floral thread-work, everyday-formal fit.",
+      "sizes": ["S", "M", "L", "XL"],
+      "chest": { "S": "20.5", "M": "21.5", "L": "23", "XL": "24" },
+      "shirt_length": 44,
+      "plazo_length": 40,
+      "stock_left": 100,
+      "sold_out": false,
+      "images": ["content/images/zeb-e-noor-1.jpg", "content/images/zeb-e-noor-2.jpg"],
+      "date": "2026-09-11"
+    }
+  ]
+}

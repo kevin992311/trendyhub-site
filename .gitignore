@@ -1,0 +1,10 @@
+# Local preview server logs
+server.log
+server.err
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/

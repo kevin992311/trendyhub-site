@@ -1,0 +1,58 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "content/images"
+public_folder: "content/images"
+
+site_url: https://YOUR-SITE-NAME.netlify.app
+display_url: https://YOUR-SITE-NAME.netlify.app
+
+collections:
+  - name: "catalog"
+    label: "Collection"
+    files:
+      - name: "products"
+        label: "Shop"
+        file: "content/products.json"
+        description: "Add today's pieces here. Changes go live in about a minute after you publish."
+        fields:
+          - { label: "WhatsApp Number (country code, no +, no spaces)", name: "whatsapp_number", widget: "string" }
+          - { label: "Shop Name", name: "shop_name", widget: "string" }
+          - { label: "Tagline (shown under the heading)", name: "tagline", widget: "text" }
+          - label: "Pieces"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.name}} — Rs {{fields.price}}"
+            fields:
+              - { label: "Piece ID (short, no spaces, e.g. zeb-e-noor-plazo)", name: "id", widget: "string" }
+              - { label: "Article Name", name: "name", widget: "string" }
+              - { label: "Price (numbers only)", name: "price", widget: "number", value_type: "int" }
+              - { label: "Fabric / Stuff", name: "fabric", widget: "string", required: false }
+              - { label: "Description", name: "description", widget: "text", required: false }
+              - label: "Sizes Available"
+                name: "sizes"
+                widget: "select"
+                multiple: true
+                options: ["XS", "S", "M", "L", "XL", "XXL"]
+                required: false
+              - label: "Chest measurements (leave blank sizes you don't stock)"
+                name: "chest"
+                widget: "object"
+                required: false
+                collapsed: true
+                fields:
+                  - { label: "S", name: "S", widget: "string", required: false }
+                  - { label: "M", name: "M", widget: "string", required: false }
+                  - { label: "L", name: "L", widget: "string", required: false }
+                  - { label: "XL", name: "XL", widget: "string", required: false }
+                  - { label: "XXL", name: "XXL", widget: "string", required: false }
+              - { label: "Shirt Length", name: "shirt_length", widget: "number", required: false }
+              - { label: "Plazo / Bottom Length", name: "plazo_length", widget: "number", required: false }
+              - { label: "Pieces in Stock", name: "stock_left", widget: "number", required: false }
+              - { label: "Sold Out?", name: "sold_out", widget: "boolean", default: false }
+              - label: "Photos"
+                name: "images"
+                widget: "list"
+                field: { label: "Photo", name: "image", widget: "image" }
+              - { label: "Date Posted", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }

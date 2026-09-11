@@ -1,0 +1,31 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+# Product data is never cached so new posts appear right after publishing.
+[[headers]]
+  for = "/content/products.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+
+# Images are immutable once uploaded — cache them at the CDN for 30 days.
+[[headers]]
+  for = "/content/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, immutable"
+
+# App assets: cache for 1 day.
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
