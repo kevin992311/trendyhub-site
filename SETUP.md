@@ -65,3 +65,10 @@ From this folder run:
 (or `python3 -m http.server 8000` on macOS/Linux), then open
 `http://localhost:8000` in your browser. You should see the product cards,
 and you can click any photo to view it full-size.
+
+> **About logging into `/admin` locally:** this will **not** work on plain
+> localhost, and that's expected. The admin editor signs in through Netlify's
+> Git Gateway, which only exists once the site is deployed. On a local server
+> you'll see "Unsupported method ('POST')" — that is the local server's normal
+> response to login traffic, not a bug in the site. Just preview the storefront
+> locally; use the deployed Netlify URL for the admin.

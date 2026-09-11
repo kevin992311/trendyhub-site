@@ -4,6 +4,9 @@ server.err
 __pycache__/
 *.pyc
 
+# Screenshots
+Capture.PNG
+
 # OS / editor
 .DS_Store
 Thumbs.db

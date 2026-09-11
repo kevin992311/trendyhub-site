@@ -1,73 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Trendyhub — Manage Collection</title>
-<style>
-  *{box-sizing:border-box;}
-  body{margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-       font-family:'Work Sans',system-ui,sans-serif; background:#F2EDE3; color:#241C17;}
-  .gate{width:min(380px,92vw); background:#FBF6EC; border:1px solid rgba(36,28,23,.14);
-        border-radius:12px; padding:34px 30px; box-shadow:0 22px 44px -18px rgba(36,28,23,.25); text-align:center;}
-  .gate .mark{width:52px;height:52px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-       background:linear-gradient(135deg,#5C1F2E,#7A2A3C);color:#FBF6EC;font-family:Georgia,serif;font-size:24px;
-       box-shadow:0 0 0 1px rgba(255,255,255,.25) inset,0 6px 14px -6px rgba(92,31,46,.45);}
-  .gate h1{margin:0;font-family:Georgia,serif;font-size:22px;font-weight:500;letter-spacing:-.01em;}
-  .gate .sub{font-size:13px;color:#71675C;margin:8px 0 22px;}
-  .gate input{width:100%;padding:12px 14px;border:1px solid rgba(36,28,23,.3);border-radius:8px;font-size:14px;margin-bottom:12px;}
-  .gate button{width:100%;padding:12px;border:none;border-radius:999px;background:linear-gradient(135deg,#5C1F2E,#7A2A3C);color:#FBF6EC;font-size:14px;font-weight:600;cursor:pointer;}
-  .gate .msg{font-size:12.5px;color:#A2493B;min-height:16px;margin-top:12px;}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trendyhub — Manage Collection</title>
 </head>
 <body>
-  <div class="gate" id="gate">
-    <div class="mark">T</div>
-    <h1>Trendyhub Admin</h1>
-    <p class="sub">Enter the collection password to unlock the editor.</p>
-    <form id="gate-form">
-      <input type="password" id="gate-pass" placeholder="Password" autocomplete="off" autofocus />
-      <button type="submit">Unlock editor</button>
-    </form>
-    <p class="msg" id="gate-msg"></p>
-  </div>
+  <!-- Decap CMS admin. Logging in is handled by Decap's own backend
+       (git-gateway on Netlify, or a GitHub/GitLab backend), so there is no
+       custom login form here and nothing to POST by hand.
+       IMPORTANT: login only works AFTER the site is deployed on Netlify with
+       Identity + Git Gateway enabled. On a plain localhost static server,
+       Decap's auth POSTs return "Unsupported method ('POST')" and login
+       cannot complete — that is expected, not a code bug. -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
-    /* Collection password is stored as a SHA-256 hash (TRENDYHUB123). */
-    var PASS_HASH = "d995f37272185eae23a4b7614ba5a0083709ae066d192db7df3a13f5b176096e";
-    var SESSION_KEY = "trendyhub_admin_unlocked";
-
-    function loadCms() {
-      var s = document.createElement("script");
-      s.src = "https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js";
-      s.onerror = function () { showMsg("Couldn't load the editor. Check your connection."); };
-      document.body.appendChild(s);
-    }
-    function startEditor() {
-      sessionStorage.setItem(SESSION_KEY, "1");
-      document.getElementById("gate").innerHTML = "<p style='padding:22px;color:#71675C'>Unlocked — loading editor…</p>";
-      loadCms();
-    }
-    function showMsg(m) { document.getElementById("gate-msg").textContent = m; }
-
-    async function sha256(str) {
-      var data = new TextEncoder().encode(str);
-      var buf = await crypto.subtle.digest("SHA-256", data);
-      return Array.prototype.map.call(new Uint8Array(buf), function (b) {
-        return ("0" + b.toString(16)).slice(-2);
-      }).join("");
-    }
-
-    (function () {
-      if (sessionStorage.getItem(SESSION_KEY) === "1") { startEditor(); return; }
-      document.getElementById("gate-form").addEventListener("submit", function (e) {
-        e.preventDefault();
-        var v = document.getElementById("gate-pass").value;
-        sha256(v).then(function (h) {
-          if (h === PASS_HASH) startEditor();
-          else { showMsg("Incorrect password."); document.getElementById("gate-pass").value = ""; document.getElementById("gate-pass").focus(); }
-        }).catch(function () { showMsg("This browser doesn't support secure login."); });
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", function (user) {
+        if (!user) {
+          window.netlifyIdentity.on("login", function () { document.location.href = "/admin/"; });
+        }
       });
-    })();
+    }
   </script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
